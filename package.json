@@ -1,0 +1,71 @@
+{
+  "name": "safesearch-storm",
+  "description": "safesearch-storm is a easy to use module that exposes endpoints to configure safesearch on linux containers",
+  "author": {
+    "name": "Ravi Chunduru"
+  },
+  "version": "0.0.01",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stormstack/safesearch-storm.git"
+  },
+  "dependencies": {
+    "async": "0.9.0",
+    "json-schema": "0.2.0",
+    "lazy": "1.0.x",
+    "node-uuid": "1.3.x",
+    "path": "0.4.9",
+    "stormdata": ">=1.2.0",
+    "stormregistry": ">=1.2.0",
+    "stormservice": ">=1.0.2",
+    "fmerge": ">=1.1.0"
+  },
+  "engines": {
+    "node": ">=0.6.x"
+  },
+  "stormflash": {
+    "packages": [
+      "apt-get://corenova",
+      "apt-get://uproxy"
+    ],
+    "services": [
+      "safesearch*"
+    ],
+    "plugin": "lib/plugin"
+  },
+  "main": "./lib/safesearch-service",
+  "config": {
+    "logfile": "/var/log/safesearch-storm.log",
+    "storm": {
+      "plugins": [
+        "lib/plugin"
+      ]
+    }
+  },
+  "scripts": {
+    "prepublish": "mkdir -p lib; coffee -o lib -c src"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "keywords": [
+    "safesearch"
+  ],
+  "contributors": [
+    {
+      "name": "Peter.K.Lee"
+    },
+    {
+      "name": "Geetha R"
+    },
+    {
+      "name": "Suresh Kumar"
+    },
+    {
+      "name": "Sivaprasath Busa",
+      "email": "sbusa@clearpathnet.com"
+    },
+    {
+      "name": "Chandrashekhar Hiremath"
+    }
+  ]
+}
