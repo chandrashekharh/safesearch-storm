@@ -9,28 +9,35 @@ utils = require('utils')._
 context = {}
 # input data
 #---------------------------------------------------------------------------------------------
-safesearchConfig = 
-    "HAVE_SAFESEARCH": false,
-    "SAFESEARCH_POLICY": {
-        "filename": "safesearch.policy",
-        "encoding": "base64",
-        "data": ""
-    },
-    "SAFESEARCH": false,
-    "SAFESEARCH_RESPONSE": false
-
 
 input = {
-    "baseUrl": "http://192.168.122.246:5000",
-    "bInstalledPackages": true,
-    "bFactoryPush": false,
-    "service":{
-        "name": "SafeSearch",
-        "config": {}
-    }
+        "baseUrl": "http://192.168.122.246:5000",
+        "bInstalledPackages": true,
+        "bFactoryPush": false,
+        "service": {
+            "name": "SafeSearch",
+            "factoryConfig": {
+                "HAVE_SAFESEARCH": false,
+                "SAFESEARCH_POLICY": {
+                "filename": "safesearch.policy",
+                "encoding": "base64",
+                "data": ""
+                },
+                "SAFESEARCH": false,
+                "SAFESEARCH_RESPONSE": false
+            },
+            "policyConfig": {
+                "HAVE_SAFESEARCH": true,
+                "SAFESEARCH_POLICY": {
+                "filename": "safesearch.policy",
+                "encoding": "base64",
+                "data": "Z29vZ2xlCnlhaG9vCmJpbmcK"
+                },
+            "SAFESEARCH": true,
+            "SAFESEARCH_RESPONSE": true
+            }
+        }
 }
-
-input.service.config = safesearchConfig
 
 getPromise = ->
 	return new Promise (resolve, reject) ->
