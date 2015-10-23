@@ -78,7 +78,7 @@ Stop =  (context) ->
         "filename": "safesearch.policy",
         "encoding": "base64",
         "data": ""
-    "SAFESEARCH": true,
+    "SAFESEARCH": false,
     "SAFESEARCH_RESPONSE": false
     getPromise()
     .then () =>
