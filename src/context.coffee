@@ -40,14 +40,15 @@ putConfig = (baseUrl,id,config)->
         throw err
 
 Start =  (context) ->
-    throw new Error 'safesearch-storm.Start missingParams' unless context.bInstalledPackages and context.service.name and context.service.factoryConfig
+    throw new Error 'safesearch-storm.Start missingParams' unless context.bInstalledPackages and context.service.name and context.service.factoryConfig and context.service.factoryConfig.config.safesearch.enable
     getPromise()
     .then () =>
-        return Validate(context.service.factoryConfig)
+        #return Validate(context.service.factoryConfig)
+        return Validate(context.service.factoryConfig.config.safesearch.urlfilter.config)
     .then (resp) =>
         return getCorenovaID(context.baseUrl)
     .then (corenovaID) =>
-        return putConfig(context.baseUrl,corenovaID,context.service.factoryConfig)
+        return putConfig(context.baseUrl,corenovaID,context.service.factoryConfig.config.safesearch.urlfilter.config)
     .then (resp) =>
         context.bFactoryPush = true
         console.log "SafeSearch START response:\n " + JSON.stringify context 
@@ -56,14 +57,15 @@ Start =  (context) ->
         throw err
 
 Update =  (context) ->
-    throw new Error 'safesearch-storm.update missingParams' unless context.bInstalledPackages and context.service.name and context.service.policyConfig
+    throw new Error 'safesearch-storm.update missingParams' unless context.bInstalledPackages and context.service.name and context.service.policyConfig and context.service.policyConfig.safesearch.enable
+
     getPromise()
     .then () =>
-        return Validate(context.service.policyConfig)
+        return Validate(context.service.policyConfig.safesearch.urlfilter.config)
     .then (resp) =>        
         return getCorenovaID(context.baseUrl)
     .then (corenovaID) =>       
-        return putConfig(context.baseUrl,corenovaID,context.service.policyConfig)    
+        return putConfig(context.baseUrl,corenovaID,context.service.policyConfig.safesearch.urlfilter.config)    
     .then (resp) =>
         console.log "SafeSearch UPDATE response:\n " + JSON.stringify resp
         return context

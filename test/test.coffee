@@ -6,48 +6,67 @@ Validate = require('./../src/context').validate
 Promise = require 'bluebird'
 diff = require('deep-diff').diff
 utils = require('utils')._
-context = {}
-# input data
+
+# context data
 #---------------------------------------------------------------------------------------------
 
-input = {
-        "baseUrl": "http://192.168.122.246:5000",
-        "bInstalledPackages": true,
-        "bFactoryPush": false,
-        "service": {
-            "name": "SafeSearch",
-            "factoryConfig": {
-                "HAVE_SAFESEARCH": true,
-                "SAFESEARCH_POLICY": {
-                "filename": "safesearch.policy",
-                "encoding": "base64",
-                "data": "Z29vZ2xlCnlhaG9vCmJpbmcK"
-                },
-                "SAFESEARCH": true,
-                "SAFESEARCH_RESPONSE": true
-            },
-            "policyConfig": {
-                "HAVE_SAFESEARCH": true,
-                "SAFESEARCH_POLICY": {
-                "filename": "safesearch.policy",
-                "encoding": "base64",
-                "data": "Z29vZ2xlCnlhaG9vCmJpbmcK"
-                },
-            "SAFESEARCH": true,
-            "SAFESEARCH_RESPONSE": true
+context = {
+    "baseUrl": "http://192.168.122.246:5000",
+    "bInstalledPackages": true,
+    "bFactoryPush": false,
+    "service": {
+        "name": "safesearch",
+        "factoryConfig": {
+            "config": {
+                "safesearch": {
+                    "enable": true,
+                    "urlfilter": {
+                        "enable": true,
+                        "config": {
+                            "HAVE_SAFESEARCH": true,
+                            "SAFESEARCH_POLICY": {
+                                "filename": "safesearch.policy",
+                                "encoding": "base64",
+                                "data": "Z29vZ2xlCnlhaG9vCmJpbmcK"
+                            },
+                            "SAFESEARCH": true,
+                            "SAFESEARCH_RESPONSE": true
+                        }
+                    }
+                }
+            }
+        },
+        "policyConfig": {
+            "safesearch": {
+                "enable": true,
+                "urlfilter": {
+                    "enable": true,
+                    "config": {
+                        "HAVE_SAFESEARCH": true,
+                        "SAFESEARCH_POLICY": {
+                            "filename": "safesearch.policy",
+                            "encoding": "base64",
+                            "data": "Z29vZ2xlCnlhaG9vCmJpbmcK"
+                        },
+                        "SAFESEARCH": true,
+                        "SAFESEARCH_RESPONSE": true
+                    }
+                }
             }
         }
+    }
 }
+
 
 getPromise = ->
 	return new Promise (resolve, reject) ->
 		resolve()
 
-startcall = (input)->
+startcall = (context)->
 	getPromise()
 	.then (resp) =>
-		jsonfile.writeFileSync("/tmp/start-input.json",input,{spaces: 2})
-		return Start input
+		jsonfile.writeFileSync("/tmp/start-input.json",context,{spaces: 2})
+		return Start context 
 	.catch (err) =>
 		console.log "Start err ", err
 	.then (resp) =>
@@ -86,9 +105,9 @@ updatecall = ()->
 		console.log "result from Update:\n ", JSON.stringify resp		
 	.done
 
-startcall(input);
-setTimeout(updatecall, 20000, input);
-setTimeout(stopcall, 40000, input);
-setTimeout(startcall, 60000, input);
-setTimeout(updatecall, 80000, input);
-setTimeout(stopcall, 100000, input);
+startcall(context);
+setTimeout(updatecall, 20000, context);
+setTimeout(stopcall, 40000, context);
+setTimeout(startcall, 60000, context);
+setTimeout(updatecall, 80000, context);
+setTimeout(stopcall, 100000, context);
