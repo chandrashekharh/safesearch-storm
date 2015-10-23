@@ -49,22 +49,8 @@ Start =  (context) ->
     .then (corenovaID) =>
         return putConfig(context.baseUrl,corenovaID,context.service.factoryConfig)
     .then (resp) =>
-        console.log "SafeSearch START response:\n " + JSON.stringify resp
-        return context
-    .catch (err) =>
-        throw err
-
-Stop =  (context) ->
-    throw new Error 'safesearch-storm.Start missingParams' unless context.bInstalledPackages and context.service.name and context.service.factoryConfig
-    getPromise()
-    .then () =>
-        return Validate(context.service.factoryConfig)
-    .then (resp) =>    
-        return getCorenovaID(context.baseUrl)
-    .then (corenovaID) =>
-        return putConfig(context.baseUrl,corenovaID,context.service.factoryConfig)    
-    .then (resp) =>
-        console.log "SafeSearch STOP response:\n " + JSON.stringify resp
+        context.bFactoryPush = true
+        console.log "SafeSearch START response:\n " + JSON.stringify context 
         return context
     .catch (err) =>
         throw err
@@ -77,10 +63,32 @@ Update =  (context) ->
     .then (resp) =>        
         return getCorenovaID(context.baseUrl)
     .then (corenovaID) =>       
-        #console.log "SafeSearch Corenova UPDATAE configs:\n " + JSON.stringify config
         return putConfig(context.baseUrl,corenovaID,context.service.policyConfig)    
     .then (resp) =>
-        console.log "SafeSearch Corenova UPDATE response:\n " + JSON.stringify resp
+        console.log "SafeSearch UPDATE response:\n " + JSON.stringify resp
+        return context
+    .catch (err) =>
+        throw err
+
+Stop =  (context) ->
+    throw new Error 'safesearch-storm.Start missingParams' unless context.bInstalledPackages and context.service.name and context.service.factoryConfig
+    config = 
+    "HAVE_SAFESEARCH": false,
+    "SAFESEARCH_POLICY":
+        "filename": "safesearch.policy",
+        "encoding": "base64",
+        "data": ""
+    "SAFESEARCH": true,
+    "SAFESEARCH_RESPONSE": false
+    getPromise()
+    .then () =>
+        return Validate(config)
+    .then (resp) =>    
+        return getCorenovaID(context.baseUrl)
+    .then (corenovaID) =>
+        return putConfig(context.baseUrl,corenovaID,config)    
+    .then (resp) =>
+        console.log "SafeSearch STOP response:\n " + JSON.stringify resp 
         return context
     .catch (err) =>
         throw err

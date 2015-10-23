@@ -27,14 +27,14 @@
     "service": {
       "name": "SafeSearch",
       "factoryConfig": {
-        "HAVE_SAFESEARCH": false,
+        "HAVE_SAFESEARCH": true,
         "SAFESEARCH_POLICY": {
           "filename": "safesearch.policy",
           "encoding": "base64",
-          "data": ""
+          "data": "Z29vZ2xlCnlhaG9vCmJpbmcK"
         },
-        "SAFESEARCH": false,
-        "SAFESEARCH_RESPONSE": false
+        "SAFESEARCH": true,
+        "SAFESEARCH_RESPONSE": true
       },
       "policyConfig": {
         "HAVE_SAFESEARCH": true,
@@ -132,5 +132,11 @@
   setTimeout(updatecall, 20000, input);
 
   setTimeout(stopcall, 40000, input);
+
+  setTimeout(startcall, 60000, input);
+
+  setTimeout(updatecall, 80000, input);
+
+  setTimeout(stopcall, 100000, input);
 
 }).call(this);
